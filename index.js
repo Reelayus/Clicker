@@ -9,20 +9,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const autoClickIntervalElement = document.getElementById('autoClickInterval');
     const highScoreElement = document.getElementById('highScore');
     const clickSound = document.getElementById('clickSound');
+    const upgradeClickSound = document.getElementById('upgradeClickSound');
+    const autoClickUpgradeSound = document.getElementById('autoClickUpgradeSound');
+    const resetSound = document.getElementById('resetSound');
+    const resetHighScoreSound = document.getElementById('resetHighScoreSound');
     const pointsForUpgradeElement = document.getElementById('pointsForUpgrade');
+    const pointsForAutoClickUpgradeElement = document.getElementById('pointsForAutoClickUpgrade');
 
     let score = parseInt(localStorage.getItem('score')) || 0;
     let pointsPerClick = parseInt(localStorage.getItem('pointsPerClick')) || 1;
     let highScore = parseInt(localStorage.getItem('highScore')) || 0;
     let autoClickInterval = parseInt(localStorage.getItem('autoClickInterval')) || 10;
-    let pointsForUpgrade = parseInt(localStorage.getItem('pointsForUpgrade')) || 1;
-
+    let pointsForUpgrade = pointsPerClick * 20;
+    let pointsForAutoClickUpgrade = autoClickInterval * 30;
 
     scoreElement.textContent = score;
     pointsPerClickElement.textContent = pointsPerClick;
     autoClickIntervalElement.textContent = autoClickInterval;
     highScoreElement.textContent = highScore;
+    pointsForUpgradeElement.textContent = `Points needed for upgrade: ${pointsForUpgrade}`;
+    pointsForAutoClickUpgradeElement.textContent = `Points needed for upgrade: ${pointsForAutoClickUpgrade}`;
 
+    const updateUpgradeCosts = () => {
+        pointsForUpgrade = pointsPerClick * 20;
+        pointsForAutoClickUpgrade = (10 - autoClickInterval + 1) * 30;
+        pointsForUpgradeElement.textContent = `Points needed for upgrade: ${pointsForUpgrade}`;
+        pointsForAutoClickUpgradeElement.textContent = `Points needed for upgrade: ${pointsForAutoClickUpgrade}`;
+    };
     const click = () => {
         score += pointsPerClick;
         if (score > highScore) {
@@ -39,22 +52,23 @@ document.addEventListener('DOMContentLoaded', () => {
             clickButton.classList.remove('clicked');
         }, 100);
     };
-    const addClickAnimation = (button) => {
+    const addClickAnimation = (button, sound) => {
         button.addEventListener('click', () => {
             button.classList.add('clicked');
+            sound.currentTime = 0;
+            sound.play();
             setTimeout(() => {
                 button.classList.remove('clicked');
             }, 100);
         });
     };
-    addClickAnimation(clickButton);
-    addClickAnimation(upgradeButton);
-    addClickAnimation(autoClickUpgradeButton);
-    addClickAnimation(resetButton);
-    addClickAnimation(resetHighScoreButton);
+    addClickAnimation(clickButton, clickSound);
+    addClickAnimation(upgradeButton, upgradeClickSound);
+    addClickAnimation(autoClickUpgradeButton, autoClickUpgradeSound);
+    addClickAnimation(resetButton, resetSound);
+    addClickAnimation(resetHighScoreButton, resetHighScoreSound);
     let autoClicker = setInterval(click, autoClickInterval * 1000);
     clickButton.addEventListener('click', click);
-
     upgradeButton.addEventListener('click', () => {
         const upgradeCost = pointsPerClick * 20;
         if (score >= upgradeCost) {
@@ -64,29 +78,29 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('pointsPerClick', pointsPerClick);
             scoreElement.textContent = score;
             pointsPerClickElement.textContent = pointsPerClick;
+            updateUpgradeCosts();
         } else {
             alert('Not enough points to upgrade!');
         }
     });
     autoClickUpgradeButton.addEventListener('click', () => {
-        const upgradeCost = pointsForUpgrade * 30;
+        const upgradeCost = (10 - autoClickInterval + 1) * 30;
         if (score >= upgradeCost && autoClickInterval > 1) {
             score -= upgradeCost;
             autoClickInterval -= 1;
-            pointsForUpgrade += 1;
             clearInterval(autoClicker);
             autoClicker = setInterval(click, autoClickInterval * 1000);
             localStorage.setItem('score', score);
             localStorage.setItem('autoClickInterval', autoClickInterval);
             scoreElement.textContent = score;
             autoClickIntervalElement.textContent = autoClickInterval;
+            updateUpgradeCosts();
         } else if (autoClickInterval <= 1) {
             alert('Auto Click Interval cannot be less than 1 second!');
         } else {
             alert('Not enough points to upgrade auto click!');
         }
     });
-    
     resetButton.addEventListener('click', () => {
         score = 0;
         pointsPerClick = 1;
@@ -99,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scoreElement.textContent = score;
         pointsPerClickElement.textContent = pointsPerClick;
         autoClickIntervalElement.textContent = autoClickInterval;
+        updateUpgradeCosts();
     });
     resetHighScoreButton.addEventListener('click', () => {
         highScore = 0;
