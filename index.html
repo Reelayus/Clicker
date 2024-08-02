@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+    </style>
+</head>
+<body>
+    <div class="game">
+        <h1 class="game__title">Clicker Game</h1>
+        <div class="game__center">
+            <button class="button button--click" id="clickButton">Click Me!</button>
+        </div>
+        <div class="game__score">Score: <span id="score">0</span></div>
+        <div class="game__info">Points per Click: <span id="pointsPerClick">1</span></div>
+        <div class="game__info"><span id="pointsForUpgrade"></span></div>
+        <div class="game__button-row">
+            <button class="button button--upgrade" id="autoClickUpgradeButton">Upgrade Auto Click</button>
+            <button class="button button--upgrade" id="upgradeButton">Upgrade Points Per Click</button>
+        </div>
+        <div class="game__info">Auto Click Interval: <span id="autoClickInterval">10</span> seconds</div>
+        <div class="game__info">High Score: <span id="highScore">0</span></div>
+        <div class="game__button-row">
+            <button class="button button--reset" id="resetButton">Reset Game</button>
+            <button class="button button--reset" id="resetHighScoreButton">Reset High Score</button>
+        </div>
+    </div>
+    <audio id="clickSound" src="click.mp3"></audio>
+    <script src="index.js"></script>
+</body>
+</html>
+
+

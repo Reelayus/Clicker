@@ -1,0 +1,86 @@
+body {
+    background: #1c1c1c;
+    font-family: 'Press Start 2P', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #ffffff;
+}
+.game {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background: #2a2d34;
+    border: 4px solid #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+.game__title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 24px;
+    color: #ffcc00;
+    margin-bottom: 20px;
+}
+.button {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #4CAF50;
+    color: white;
+    border: 4px solid #333;
+    cursor: pointer;
+    text-transform: uppercase;
+    outline: none;
+    transition: all 0.1s ease-in-out;
+    box-shadow: 0 0 0 4px #FFF, 0 0 0 8px #333, 0 0 0 12px #FFF, 0 0 0 16px #333;
+    display: block;
+    margin: 10px;
+    padding: 16px;
+    font-size: 16px;
+    border-radius: 10px;
+}
+.button--click {
+    font-size: 24px;
+    padding: 20px;
+    margin: 20px auto;
+    display: inline-block;
+    background-color: #007BFF;
+}
+.button--upgrade {
+    background-color: #FF5733;
+}
+.button--reset {
+    background-color: #FF3333;
+}
+.button:hover {
+    filter: brightness(1.2);
+}
+.button:active {
+    top: 2px;
+    left: 2px;
+    box-shadow: 0 0 0 3px #FFF, 0 0 0 6px #333, 0 0 0 9px #FFF, 0 0 0 12px #333;
+}
+.game__score,
+.game__info {
+    font-size: 18px;
+    margin: 10px 0;
+}
+.game__button-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.clicked {
+    animation: clickAnimation 0.1s ease;
+}
+@keyframes clickAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+.game__center {
+    display: flex;
+    justify-content: center;
+}
